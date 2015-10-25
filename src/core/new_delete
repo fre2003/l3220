@@ -1,0 +1,61 @@
+
+#ifndef _AFX_PORTABLE
+#pragma component(browser, off, references, "ASSERT")
+#pragma component(browser, off, references, "AfxAssertFailedLine")
+#pragma component(browser, off, references, "AfxDebugBreak")
+#pragma component(browser, off, references, "BOOL")
+#pragma component(browser, off, references, "BYTE")
+#pragma component(browser, off, references, "DECLSPEC_IMPORT")
+#pragma component(browser, off, references, "DWORD")
+#pragma component(browser, off, references, "FALSE")
+#pragma component(browser, off, references, "FAR")
+#pragma component(browser, off, references, "LPSTR")
+#pragma component(browser, off, references, "LPTSTR")
+#pragma component(browser, off, references, "LPCSTR")
+#pragma component(browser, off, references, "LPCTSTR")
+#pragma component(browser, off, references, "NULL")
+#pragma component(browser, off, references, "PASCAL")
+#pragma component(browser, off, references, "THIS_FILE")
+#pragma component(browser, off, references, "TRUE")
+#pragma component(browser, off, references, "UINT")
+#pragma component(browser, off, references, "WINAPI")
+#pragma component(browser, off, references, "WORD")
+#endif  //!_AFX_PORTABLE
+
+#ifdef AFX_INIT_SEG
+#pragma code_seg(AFX_INIT_SEG)
+#endif
+
+#define AFX_INIT_SEG    _TEXTSEG(AFX_INIT)  // initialization
+
+
+#define _TEXTSEG(name)  ".text$" #name
+
+
+BOOL AFXAPI AfxIsValidAddress(const void* lp, UINT nBytes,
+	BOOL bReadWrite /* = TRUE */)
+{
+	// simple version using Win-32 APIs for pointer validation.
+	return (lp != NULL && !IsBadReadPtr(lp, nBytes) &&
+		(!bReadWrite || !IsBadWritePtr((LPVOID)lp, nBytes)));
+}
+
+void __cdecl operator delete(void* p)
+{
+#if !defined(_AFX_NO_DEBUG_CRT) && defined(_DEBUG)
+		_free_dbg(p, _NORMAL_BLOCK);
+#else
+		free(p);
+#endif
+}
+
+void* __cdecl operator new(size_t nSize)
+
+void* AFX_CDECL operator new(size_t nSize, LPCSTR lpszFileName, int nLine);
+#define DEBUG_NEW new(THIS_FILE, __LINE__)
+#if _MSC_VER >= 1200
+void AFX_CDECL operator delete(void* p, LPCSTR lpszFileName, int nLine);
+#endif
+
+void* __cdecl operator new(size_t nSize)
+

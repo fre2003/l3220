@@ -1,0 +1,6 @@
+#include "../../inc/dbghelp.h"
+#include "..\core20\WalkStack_20.h"
+#include "shlwapi.h"
+#include "dc_DbgExp.h"
+#include "dc_utl.h"
+#include "dc_LogFile.h"
